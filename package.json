@@ -4,7 +4,7 @@
   "description": "react hooks, 从项目代码中挖出.",
   "author": "g770728y",
   "license": "MIT",
-  "repository": "g770728y/valor-hooks",
+  "repository": "https://github.com/g770728y/valor-hooks.git",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
@@ -51,5 +51,6 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "homepage":"https://g770728y.github.io/valor-hooks"
 }
