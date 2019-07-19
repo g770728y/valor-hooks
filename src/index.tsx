@@ -1,6 +1,9 @@
-import  {UseCompositionInputResult, useCompositionInput} from './useCompositionInput';
+import {
+  UseCompositionInputResult,
+  useCompositionInput
+} from './useCompositionInput';
 
-export {useCompositionInput, UseCompositionInputResult};
+export { useCompositionInput, UseCompositionInputResult };
 
-
-
+import { useEventBus } from './useEventBus';
+export { useEventBus };
