@@ -2,7 +2,7 @@ import * as React from 'react';
 
 const isChrome = !!(window as any).chrome;
 
-export interface UseCompositionInputResult  {
+export interface UseCompositionInputResult {
   value: string;
   onChange: React.ChangeEventHandler;
   onCompositionStart: React.CompositionEventHandler;
@@ -18,22 +18,27 @@ export function useCompositionInput({
   value?: string;
   onCommit: (v: string) => void;
 }): UseCompositionInputResult {
-  const [inner_value, setInnerValue] = React.useState(defaultValue || value || '');
+  const [inner_value, setInnerValue] = React.useState(
+    defaultValue || value || ''
+  );
   const isOnComposition = React.useRef<boolean>(false);
 
   React.useEffect(() => {
-    (defaultValue===undefined || defaultValue == null ) && setInnerValue(value || '');
+    console.log('useEffect');
+    (defaultValue === undefined || defaultValue == null) &&
+      setInnerValue(value || '');
   }, [value]);
 
-  const onChange = (e: any) => {
+  const onChange = React.useCallback((e: any) => {
+    console.log('onChange');
     const newValue = e.target.value;
     setInnerValue(newValue);
     if (!isOnComposition.current) {
       onCommit(newValue);
     }
-  };
+  }, []);
 
-  const onComposition = (e: any) => {
+  const onComposition = React.useCallback((e: any) => {
     if (e.type.toLowerCase() === 'compositionend') {
       isOnComposition.current = false;
 
@@ -44,7 +49,12 @@ export function useCompositionInput({
     } else {
       isOnComposition.current = true;
     }
-  };
+  }, []);
 
-  return {value:inner_value, onChange, onCompositionStart:onComposition, onCompositionEnd:onComposition};
+  return {
+    value: inner_value,
+    onChange,
+    onCompositionStart: onComposition,
+    onCompositionEnd: onComposition
+  };
 }
