@@ -1,6 +1,11 @@
 import * as React from 'react';
 
-// 没时间写example了, 后面补上
+//
+/***
+ * 没时间写example了, 后面补上
+ *  注意!!! : onMouseMove 和 onMouseUp 如果使用React.useCallback, 会引发闭包问题
+ *  所以最终定义 onMouseXX 的组件, 应该使用 class 组件
+ */
 export const useMouseDownMoveUp = ({
   onMouseMove,
   onMouseUp
@@ -30,7 +35,6 @@ export const useMouseDownMoveUp = ({
 
   const handleMouseDown = React.useCallback((e: React.MouseEvent) => {
     document.body.style.cursor = 'col-resize';
-    e.preventDefault();
     pos0Ref.current = { x: e.clientX, y: e.clientY };
     document.body.addEventListener('mousemove', handleMouseMove as any);
     document.body.addEventListener('mouseup', handleMouseUp as any);
