@@ -24,13 +24,13 @@ export function useCompositionInput({
   const isOnComposition = React.useRef<boolean>(false);
 
   React.useEffect(() => {
-    console.log('useEffect');
+    // console.log('useEffect');
     (defaultValue === undefined || defaultValue == null) &&
       setInnerValue(value || '');
   }, [value]);
 
   const onChange = React.useCallback((e: any) => {
-    console.log('onChange');
+    // console.log('onChange');
     const newValue = e.target.value;
     setInnerValue(newValue);
     if (!isOnComposition.current) {
