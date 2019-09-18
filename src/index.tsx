@@ -10,3 +10,6 @@ export { useEventBus };
 
 import { useMouseDownMoveUp } from './useMouseDownMoveUp';
 export { useMouseDownMoveUp };
+
+import { useMemorizedValue } from './useMemorizedValue';
+export { useMemorizedValue };
