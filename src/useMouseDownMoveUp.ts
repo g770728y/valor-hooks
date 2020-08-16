@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 //
 /***
@@ -8,10 +8,12 @@ import * as React from 'react';
  */
 export const useMouseDownMoveUp = ({
   onMouseMove,
-  onMouseUp
+  onMouseUp,
+  cursor
 }: {
   onMouseMove: ({ dx, dy }: { dx: number; dy: number }) => void;
   onMouseUp: () => void;
+  cursor: string;
 }): {
   handleMouseDown: (e: React.MouseEvent) => void;
   handleMouseUp: (e: React.MouseEvent) => void;
@@ -26,18 +28,17 @@ export const useMouseDownMoveUp = ({
   }, []);
 
   const handleMouseUp = React.useCallback((e: React.MouseEvent) => {
-    document.body.style.cursor = 'default';
+    document.body.style.cursor = "default";
     onMouseUp();
-    document.body.removeEventListener('mousemove', handleMouseMove as any);
-    document.body.removeEventListener('mouseup', handleMouseUp as any);
-    document.body.removeEventListener('mouseup', handleMouseDown as any);
+    document.body.removeEventListener("mousemove", handleMouseMove as any);
+    document.body.removeEventListener("mouseup", handleMouseUp as any);
   }, []);
 
   const handleMouseDown = React.useCallback((e: React.MouseEvent) => {
-    document.body.style.cursor = 'col-resize';
+    document.body.style.cursor = cursor; // eg, "col-resize";
     pos0Ref.current = { x: e.clientX, y: e.clientY };
-    document.body.addEventListener('mousemove', handleMouseMove as any);
-    document.body.addEventListener('mouseup', handleMouseUp as any);
+    document.body.addEventListener("mousemove", handleMouseMove as any);
+    document.body.addEventListener("mouseup", handleMouseUp as any);
   }, []);
 
   return { handleMouseDown, handleMouseUp };
