@@ -9,37 +9,77 @@ import * as React from "react";
 export const useMouseDownMoveUp = ({
   onMouseMove,
   onMouseUp,
-  cursor
+  cursor,
+  startPointRef
 }: {
-  onMouseMove: ({ dx, dy }: { dx: number; dy: number }) => void;
-  onMouseUp: () => void;
-  cursor: string;
+  onMouseMove: ({
+    dx,
+    dy,
+    x,
+    y
+  }: {
+    dx: number;
+    dy: number;
+    x: number;
+    y: number;
+  }) => void;
+  onMouseUp?: ({
+    dx,
+    dy,
+    x,
+    y
+  }: {
+    dx: number;
+    dy: number;
+    x: number;
+    y: number;
+  }) => void;
+  cursor?: string;
+  startPointRef: React.MutableRefObject<{ x: number; y: number }>;
 }): {
   handleMouseDown: (e: React.MouseEvent) => void;
-  handleMouseUp: (e: React.MouseEvent) => void;
 } => {
+  const hasDownRef = React.useRef<boolean>(false);
   const pos0Ref = React.useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
-  const handleMouseMove = React.useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    const dx = e.clientX - pos0Ref.current.x;
-    const dy = e.clientY - pos0Ref.current.y;
-    onMouseMove({ dx, dy });
-  }, []);
-
-  const handleMouseUp = React.useCallback((e: React.MouseEvent) => {
-    document.body.style.cursor = "default";
-    onMouseUp();
-    document.body.removeEventListener("mousemove", handleMouseMove as any);
-    document.body.removeEventListener("mouseup", handleMouseUp as any);
-  }, []);
-
   const handleMouseDown = React.useCallback((e: React.MouseEvent) => {
-    document.body.style.cursor = cursor; // eg, "col-resize";
+    document.body.style.cursor = cursor || "move";
     pos0Ref.current = { x: e.clientX, y: e.clientY };
+    hasDownRef.current = true;
+  }, []);
+
+  React.useEffect(() => {
+    function getResult(e: React.MouseEvent, p0: { x: number; y: number }) {
+      const dx = e.clientX - pos0Ref.current.x;
+      const dy = e.clientY - pos0Ref.current.y;
+      const x = p0.x + dx;
+      const y = p0.y + dy;
+      return { dx, dy, x, y };
+    }
+
+    function handleMouseMove(e: React.MouseEvent) {
+      e.preventDefault();
+      const p0 = startPointRef.current;
+      if (hasDownRef.current) {
+        onMouseMove(getResult(e, p0));
+      }
+    }
+
+    function handleMouseUp(e: React.MouseEvent) {
+      const p0 = startPointRef.current;
+      document.body.style.cursor = "default";
+      onMouseUp && onMouseUp(getResult(e, p0));
+      hasDownRef.current = false;
+    }
+
     document.body.addEventListener("mousemove", handleMouseMove as any);
     document.body.addEventListener("mouseup", handleMouseUp as any);
-  }, []);
 
-  return { handleMouseDown, handleMouseUp };
+    return () => {
+      document.body.removeEventListener("mousemove", handleMouseMove as any);
+      document.body.removeEventListener("mouseup", handleMouseUp as any);
+    };
+  });
+
+  return { handleMouseDown };
 };
