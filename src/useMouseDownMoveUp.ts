@@ -10,6 +10,10 @@ export const useMouseDownMoveUp = ({
   onMouseMove,
   onMouseUp,
   cursor,
+  /**
+   * 默认为mouseDown时的点
+   * 如果设置了这个, 则回调中得到的 x=startPointRef.x + dx, y亦然
+   */
   startPointRef
 }: {
   onMouseMove: ({
@@ -58,6 +62,8 @@ export const useMouseDownMoveUp = ({
     }
 
     function handleMouseMove(e: React.MouseEvent) {
+      if (!hasDownRef.current) return;
+
       e.preventDefault();
       const p0 = startPointRef.current;
       if (hasDownRef.current) {
@@ -66,6 +72,8 @@ export const useMouseDownMoveUp = ({
     }
 
     function handleMouseUp(e: React.MouseEvent) {
+      if (!hasDownRef.current) return;
+
       const p0 = startPointRef.current;
       document.body.style.cursor = "default";
       onMouseUp && onMouseUp(getResult(e, p0));
@@ -79,7 +87,7 @@ export const useMouseDownMoveUp = ({
       document.body.removeEventListener("mousemove", handleMouseMove as any);
       document.body.removeEventListener("mouseup", handleMouseUp as any);
     };
-  });
+  }, []);
 
   return { handleMouseDown };
 };
