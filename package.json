@@ -1,6 +1,6 @@
 {
   "name": "valor-hooks",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "react hooks, 从项目代码中挖出.",
   "author": "g770728y",
   "license": "MIT",
@@ -17,8 +17,6 @@
     "test:watch": "react-scripts-ts test --env=jsdom",
     "build": "rollup -c",
     "start": "rollup -c -w",
-    "prepare": "yarn run build",
-    "predeploy": "cd example && yarn install && yarn run build",
     "deploy": "gh-pages -d example/build"
   },
   "dependencies": {
@@ -49,7 +47,7 @@
     "rollup-plugin-postcss": "^1.6.2",
     "rollup-plugin-typescript2": "^0.17.0",
     "rollup-plugin-url": "^1.4.0",
-    "typescript": "^3.5.2"
+    "typescript": "^4.1.0"
   },
   "files": [
     "dist"
