@@ -2756,10 +2756,8 @@ flatten@^1.0.2:
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
 follow-redirects@^1.0.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.7.0.tgz#489ebc198dc0e7f64167bd23b03c4c19b5784c76"
-  dependencies:
-    debug "^3.2.6"
+  version "1.14.8"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.8.tgz#016996fb9a11a100566398b1c6839337d7bfa8fc"
 
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
@@ -5451,6 +5449,10 @@ raf@3.4.0:
   dependencies:
     performance-now "^2.1.0"
 
+rambda@^6.5.3:
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/rambda/-/rambda-6.9.0.tgz#17cd0b0c427295e00e8fe12de5bd63884502a9a4"
+
 randomatic@^3.0.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/randomatic/-/randomatic-3.1.1.tgz#b776efc59375984e36c537b2f51a1f0aff0da1ed"
@@ -6754,8 +6756,9 @@ validate-npm-package-license@^3.0.1:
     spdx-expression-parse "^3.0.0"
 
 "valor-hooks@link:..":
-  version "0.0.0"
-  uid ""
+  version "2.0.0"
+  dependencies:
+    rambda "^6.5.3"
 
 vary@~1.1.2:
   version "1.1.2"
